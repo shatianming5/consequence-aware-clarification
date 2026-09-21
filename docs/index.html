@@ -244,11 +244,14 @@
     height: auto;
     display: block;
   }
-  .wide-fig { margin: 0 0 12px; max-width: 100%; }
+  .wide-fig {
+    max-width: 720px;
+    margin: 8px auto 40px;
+  }
   .wide-fig .mat {
-    overflow-x: auto;
-    max-width: 100%;
-    padding: 18px 16px 12px;
+    overflow: visible;
+    padding: 8px;
+    box-shadow: none;
   }
   .chart-fig { margin: 22px 0 32px; }
   .chart-fig .mat { padding: 6px; background: #fffdf8; }
@@ -281,7 +284,6 @@
   }
   @media (max-width: 860px) {
     .stage, .stats, .steps, .tables, .verdicts, .split-fig { grid-template-columns: 1fr; }
-    .wide-fig img { min-width: 920px; }
     .cap { grid-template-columns: 1fr; gap: 4px; }
     h1 { font-size: 46px; }
   }
