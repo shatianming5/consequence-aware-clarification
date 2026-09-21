@@ -1,0 +1,17 @@
+.DS_Store
+.idea/
+.vscode/
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+artifacts/models/
+data/*.jsonl
+data/full/
+*.pt
+*.bin
+*.ckpt
+*.safetensors

@@ -1,0 +1,16 @@
+# Eval / SFT (Python 3.11). RLVR was run in a separate env; see below.
+torch==2.6.0
+transformers==4.56.2
+accelerate==1.14.0
+peft==0.19.1
+datasets==5.0.0
+safetensors==0.8.0
+numpy==2.2.6
+pandas==2.3.3
+
+# RLVR only (do not mix with the pins above)
+# torch==2.4.1
+# transformers==4.51.3
+# datasets==2.21.0
+# numpy==1.26.4
+# trl==0.19.1
