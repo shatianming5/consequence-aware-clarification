@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consequence-Aware Clarification — Execution-Grounded Data Agents</title>
+<meta name="description" content="A data agent can execute and still compute the wrong quantity. This project decides whether to clarify by running the competing readings, not by guessing inside the model.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,460;9..144,620;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,560&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23f4efe6' width='32' height='32'/%3E%3Cpath d='M6 20 L13 13 L18 18 L26 8' fill='none' stroke='%23166e3c' stroke-width='2.4'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --ink: #1c1914;
+    --muted: #6d655c;
+    --paper: #f3eee4;
+    --paper-2: #e7e0d2;
+    --line: #d3c9b8;
+    --green: #14663a;
+    --green-soft: #dceee3;
+    --red: #9d2b2b;
+    --red-soft: #f3d9d4;
+    --shadow: 0 18px 50px rgba(40, 28, 12, 0.08);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 500px at 90% -10%, #efe4cf 0%, transparent 55%),
+      linear-gradient(180deg, #f7f3eb 0%, var(--paper) 240px);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 18px;
+    line-height: 1.55;
+  }
+  body::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    opacity: 0.18;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+  a { color: inherit; }
+  .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 22px 0 8px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  nav a { text-decoration: none; }
+  nav a:hover { color: var(--ink); }
+  .nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .kicker {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin: 28px 0 12px;
+  }
+  h1 {
+    font-family: Fraunces, Georgia, serif;
+    font-weight: 560;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin: 0 0 18px;
+    max-width: 14ch;
+  }
+  h1 em { font-style: italic; font-weight: 460; }
+  .lede {
+    max-width: 42rem;
+    font-size: 22px;
+    margin: 0 0 28px;
+  }
+  .lede strong { font-weight: 560; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 54px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    padding: 10px 16px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn:hover { transform: translateY(-1px); }
+  .stage {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 22px;
+    align-items: stretch;
+    margin-bottom: 72px;
+  }
+  .panel {
+    background: rgba(255,252,246,0.78);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: 22px;
+  }
+  .panel h2 {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 28px;
+    font-weight: 560;
+    margin: 0 0 8px;
+  }
+  .request {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 14px;
+    background: #fffdf8;
+    border-left: 3px solid var(--ink);
+    padding: 10px 12px;
+    margin: 14px 0 16px;
+  }
+  .tables { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+  }
+  th, td { text-align: left; padding: 5px 6px; border-bottom: 1px solid var(--line); }
+  caption {
+    text-align: left;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .modes { display: flex; gap: 8px; margin: 8px 0 14px; }
+  .modes button {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    border: 1px solid var(--line);
+    background: transparent;
+    padding: 7px 10px;
+    cursor: pointer;
+  }
+  .modes button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .verdicts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stamp {
+    min-height: 92px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12px;
+    border: 1px dashed var(--line);
+  }
+  .stamp b {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 28px;
+    font-weight: 620;
+    letter-spacing: 0.04em;
+  }
+  .stamp.ask { background: var(--red-soft); border-style: solid; border-color: #e3b2aa; }
+  .stamp.answer { background: var(--green-soft); border-style: solid; border-color: #b7d7c4; }
+  .stamp span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; color: var(--muted); }
+  .note { color: var(--muted); font-size: 15px; margin: 12px 0 0; }
+  .probes { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; line-height: 1.45; }
+  .probes .out { color: var(--green); }
+  .probes .bad { color: var(--red); }
+  section { margin: 18px 0 70px; }
+  h3 {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 36px;
+    font-weight: 560;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .stat {
+    border-top: 2px solid var(--ink);
+    padding-top: 12px;
+  }
+  .stat .num {
+    font-family: Fraunces, Georgia, serif;
+    font-size: clamp(36px, 5vw, 54px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .stat .num.up { color: var(--green); }
+  .stat p { margin: 8px 0 0; color: var(--muted); font-size: 16px; }
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+  .step { border-top: 1px solid var(--line); padding-top: 12px; }
+  .step .n {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--green);
+  }
+  .step h4 { font-family: Fraunces, Georgia, serif; font-size: 22px; margin: 6px 0; font-weight: 560; }
+  .step p { margin: 0; font-size: 16px; }
+  .map {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+  }
+  .map th { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .map td, .map th { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.86em; }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 22px 0 40px;
+    color: var(--muted);
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 860px) {
+    .stage, .stats, .steps, .tables, .verdicts { grid-template-columns: 1fr; }
+    h1 { font-size: 46px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="#top">Execution grounding</a>
+    <div class="nav-links">
+      <a href="#demo">Demo</a>
+      <a href="#results">Results</a>
+      <a href="#method">Method</a>
+      <a href="#code">Code</a>
+      <a href="https://github.com/shatianming5/consequence-aware-clarification">GitHub</a>
+    </div>
+  </nav>
+
+  <header id="top">
+    <p class="kicker">Data agents · clarification · verifiable reward</p>
+    <h1>Break the illusion of <em>mental sandboxes</em>.</h1>
+    <p class="lede">A data agent can run, return a tidy table, and still compute the wrong quantity. The request was ambiguous, and the model never checked whether the competing readings differ <strong>on this table</strong>.</p>
+    <div class="actions">
+      <a class="btn" href="https://github.com/shatianming5/consequence-aware-clarification">View the code</a>
+      <a class="btn ghost" href="#demo">See the same request flip</a>
+    </div>
+  </header>
+
+  <div class="stage" id="demo">
+    <div class="panel">
+      <h2>Same wording. Two tables.</h2>
+      <p>The request admits two readings: sum every row, or drop duplicate rows first. Whether that matters is a property of the cells.</p>
+      <div class="request">What is the total weight in this table?</div>
+      <div class="tables">
+        <table>
+          <caption>Table A · no duplicate rows</caption>
+          <thead><tr><th>id</th><th>weight</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>10</td></tr>
+            <tr><td>2</td><td>20</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <caption>Table B · one repeated row</caption>
+          <thead><tr><th>id</th><th>weight</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>10</td></tr>
+            <tr><td>1</td><td>10</td></tr>
+            <tr><td>2</td><td>20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modes" role="group" aria-label="Decision mode">
+        <button type="button" id="mode-sim" aria-pressed="true">In-weight simulation</button>
+        <button type="button" id="mode-harn" aria-pressed="false">Execution harness</button>
+      </div>
+      <div class="verdicts">
+        <div class="stamp ask" id="stamp-a"><span>Table A</span><b>ASK</b></div>
+        <div class="stamp ask" id="stamp-b"><span>Table B</span><b>ASK</b></div>
+      </div>
+      <p class="note" id="mode-note">Simulation reads the wording and asks on both tables. It never computed whether the two sums differ.</p>
+    </div>
+    <div class="panel">
+      <h2>What the sandbox reads</h2>
+      <div class="probes" id="probe-card">
+        <p>Probe 1 &nbsp;<code>result = df["weight"].sum()</code></p>
+        <p>Probe 2 &nbsp;<code>result = df.drop_duplicates()["weight"].sum()</code></p>
+        <p>Table A &nbsp;<span class="out">30</span> and <span class="out">30</span> · coincide<br>
+        Table B &nbsp;<span class="out">40</span> and <span class="bad">30</span> · diverge</p>
+        <p>Eq. 1 &nbsp; ASK if those outputs differ, else ANSWER.<br>
+        Fewer than two probes that run is <span class="bad">MALFORMED</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <section id="results">
+    <p class="kicker">Held-out real tables</p>
+    <h3>The gap is not “write better pandas”.</h3>
+    <div class="stats">
+      <article class="stat">
+        <div class="num up">+7.6</div>
+        <p>Single-axis, 7B. Execution grounding beats the same model’s stated tag. Paired p &lt; 10<sup>−5</sup>.</p>
+      </article>
+      <article class="stat">
+        <div class="num up">43.5 → 88.2</div>
+        <p>Composite harness accuracy after execution-grounded RLVR, on tables and requests absent from training. Margin flips from −20.4 to +35.8.</p>
+      </article>
+      <article class="stat">
+        <div class="num">13</div>
+        <p>Frontier models, zero-shot, same composite items. A low crash rate never becomes a significant harness win.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="method">
+    <p class="kicker">The loop</p>
+    <h3>Decide by running, train by what ran.</h3>
+    <div class="steps">
+      <article class="step">
+        <div class="n">01</div>
+        <h4>Write probes</h4>
+        <p>The policy emits at least two pandas readings of the request, each assigning <code>result</code>, plus a stated tag.</p>
+      </article>
+      <article class="step">
+        <div class="n">02</div>
+        <h4>Execute</h4>
+        <p>A deterministic sandbox runs them on the item’s table. ASK iff the successful outputs diverge.</p>
+      </article>
+      <article class="step">
+        <div class="n">03</div>
+        <h4>Reward</h4>
+        <p>GRPO pays for a harness verdict that matches the label, and for recovering the reference outcomes. A manufactured divergence scores worse.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="code">
+    <p class="kicker">Repository</p>
+    <h3>What is in the tree.</h3>
+    <table class="map">
+      <thead><tr><th>Path</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><code>cac/</code></td><td>Harness, reward, prototypes, WikiSQL / Nature / DS-1000 loaders</td></tr>
+        <tr><td><code>train/</code></td><td>Supervised warm start and GRPO</td></tr>
+        <tr><td><code>eval/</code></td><td>Simulation vs harness, exact McNemar, frontier APIs</td></tr>
+        <tr><td><code>data/build_benchmark.py</code></td><td>Builds the pool locally. The jsonl files are not in git.</td></tr>
+        <tr><td><code>tests/test_harness.py</code></td><td>CPU check of Eq. 1 and the reward</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <div>Consequence-aware clarification for data agents.</div>
+    <a href="https://github.com/shatianming5/consequence-aware-clarification">github.com/shatianming5/consequence-aware-clarification</a>
+  </footer>
+</div>
+<script>
+  const sim = document.getElementById("mode-sim");
+  const harn = document.getElementById("mode-harn");
+  const a = document.getElementById("stamp-a");
+  const b = document.getElementById("stamp-b");
+  const note = document.getElementById("mode-note");
+  function paint(mode) {
+    const simulation = mode === "sim";
+    sim.setAttribute("aria-pressed", simulation ? "true" : "false");
+    harn.setAttribute("aria-pressed", simulation ? "false" : "true");
+    const left = simulation ? "ASK" : "ANSWER";
+    const right = "ASK";
+    a.className = "stamp " + (left === "ASK" ? "ask" : "answer");
+    b.className = "stamp ask";
+    a.innerHTML = "<span>Table A</span><b>" + left + "</b>";
+    b.innerHTML = "<span>Table B</span><b>" + right + "</b>";
+    note.textContent = simulation
+      ? "Simulation reads the wording and asks on both tables. The stated tag does not move when the cells change."
+      : "The harness runs both probes. Table A returns 30 and 30, so it answers. Table B returns 40 and 30, so it asks.";
+  }
+  sim.addEventListener("click", () => paint("sim"));
+  harn.addEventListener("click", () => paint("harn"));
+  paint("sim");
+</script>
+</body>
+</html>

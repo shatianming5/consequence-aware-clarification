@@ -1,6 +1,8 @@
 # Consequence-Aware Clarification for Data Agents
 
-Code for the AAAI 2027 paper **Consequence-Aware Clarification for Data Agents: Breaking the Illusion of Mental Sandboxes via Execution-Grounded RL**.
+Code for **Consequence-Aware Clarification for Data Agents: Breaking the Illusion of Mental Sandboxes via Execution-Grounded RL**.
+
+Project page: https://shatianming5.github.io/consequence-aware-clarification/
 
 A data agent can execute, return a well-formed table, and still compute the wrong quantity, because the request was ambiguous and the model never checked whether the competing readings differ on *this* table. This repo moves that decision out of the model's weights and into a sandbox: the model writes pandas probes, the sandbox executes them, and ASK vs ANSWER is read off whether the outputs diverge (Eq. 1). Table 1 still reports Malformed when fewer than two probes run.
 
