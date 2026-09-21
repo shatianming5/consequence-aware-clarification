@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Consequence-Aware Clarification — Execution-Grounded Data Agents</title>
 <meta name="description" content="A data agent can execute and still compute the wrong quantity. This project decides whether to clarify by running the competing readings, not by guessing inside the model.">
+<meta property="og:title" content="Consequence-Aware Clarification">
+<meta property="og:description" content="Clarification is read off execution, not off the model's stated tag.">
+<meta property="og:image" content="https://shatianming5.github.io/consequence-aware-clarification/figures/harness.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,460;9..144,620;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,560&display=swap" rel="stylesheet">
@@ -330,11 +333,11 @@
     <p class="kicker">Figures</p>
     <h3>What the checks miss, and what the harness reads.</h3>
     <figure>
-      <img src="figures/silent-error.svg" alt="An ambiguous request is turned into one operator. The code executes and the number looks plausible, but it is the wrong quantity. Artifact checks mark execute, schema, and value as ok.">
+      <img src="figures/silent-error.png" alt="An ambiguous request is turned into one operator. The code executes and the number looks plausible, but it is the wrong quantity. Artifact checks mark execute, schema, and value as ok.">
       <figcaption>Silent semantic error. Artifact checks accept both the intended and the unintended computation, because both run and both look well formed.</figcaption>
     </figure>
     <figure>
-      <img src="figures/harness.svg" alt="One generation produces a stated tag and two code probes. The sandbox compares the probe outputs on the current table. Two different outputs mean ASK. The stated tag does not decide.">
+      <img src="figures/harness.png" alt="One generation produces a stated tag and two code probes. The sandbox compares the probe outputs on the current table. Two different outputs mean ASK. The stated tag does not decide.">
       <figcaption>Execution-grounded harness. The stated tag and the probes are two observables. The verdict is whether the successful outputs diverge on this table. The reward also requires those outputs to recover the reference readings.</figcaption>
     </figure>
   </section>
@@ -342,6 +345,10 @@
   <section id="results">
     <p class="kicker">Held-out real tables</p>
     <h3>The gap is not “write better pandas”.</h3>
+    <figure>
+      <img src="figures/results.png" alt="Bar chart. Single-axis: simulation 61.7, harness 69.3. Composite harness accuracy rises from 43.5 to 69.9 to 88.2. Thirteen frontier models sit between 41 and 56, around chance.">
+      <figcaption>Single-axis is the same 7B model scored two ways. Composite bars are harness accuracy on the decontaminated slice. Frontier models stay near chance in both modes.</figcaption>
+    </figure>
     <div class="stats">
       <article class="stat">
         <div class="num up">+7.6</div>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">Decision accuracy, simulation versus harness</title>
+  <desc id="d">On single-axis ambiguity the harness leads by 7.6 points. On composite ambiguity it starts behind, then execution-grounded RLVR raises harness accuracy from 43.5 to 88.2. Frontier models stay near chance.</desc>
+  <rect width="1200" height="560" fill="#f7f3eb"/>
+  <text x="48" y="48" fill="#14663a" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="2">FIGURE 03</text>
+  <text x="48" y="86" fill="#1c1914" font-family="Georgia, 'Times New Roman', serif" font-size="32">Where execution actually changes the decision.</text>
+
+  <text x="48" y="140" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.2">SINGLE-AXIS · 7B</text>
+  <text x="430" y="140" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.2">COMPOSITE · HARNESS</text>
+  <text x="820" y="140" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.2">FRONTIER · n=300</text>
+
+  <!-- single axis bars. scale 0-100 mapped to height 220, baseline y=420 -->
+  <line x1="48" y1="420" x2="360" y2="420" stroke="#d3c9b8"/>
+  <rect x="80" y="284" width="72" height="136" fill="#e7d5cf"/>
+  <rect x="180" y="267" width="72" height="153" fill="#14663a"/>
+  <text x="86" y="272" fill="#1c1914" font-family="Georgia, serif" font-size="18">61.7</text>
+  <text x="186" y="255" fill="#14663a" font-family="Georgia, serif" font-size="18">69.3</text>
+  <text x="78" y="448" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12">simulation</text>
+  <text x="186" y="448" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12">harness</text>
+  <text x="80" y="490" fill="#14663a" font-family="Georgia, serif" font-size="28">+7.6</text>
+
+  <!-- composite trajectory -->
+  <line x1="430" y1="420" x2="760" y2="420" stroke="#d3c9b8"/>
+  <rect x="450" y="324" width="64" height="96" fill="#e7d5cf"/>
+  <rect x="540" y="266" width="64" height="154" fill="#8fbfa0"/>
+  <rect x="630" y="226" width="64" height="194" fill="#14663a"/>
+  <text x="454" y="312" fill="#1c1914" font-family="Georgia, serif" font-size="16">43.5</text>
+  <text x="548" y="254" fill="#1c1914" font-family="Georgia, serif" font-size="16">69.9</text>
+  <text x="634" y="214" fill="#14663a" font-family="Georgia, serif" font-size="16">88.2</text>
+  <text x="446" y="448" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="11">generic</text>
+  <text x="548" y="448" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="11">SFT</text>
+  <text x="630" y="448" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="11">RLVR</text>
+  <text x="450" y="490" fill="#14663a" font-family="Georgia, serif" font-size="28">margin +35.8</text>
+
+  <!-- frontier band near 50 -->
+  <line x1="820" y1="420" x2="1148" y2="420" stroke="#d3c9b8"/>
+  <line x1="820" y1="310" x2="1148" y2="310" stroke="#9d2b2b" stroke-dasharray="4 4"/>
+  <text x="828" y="300" fill="#9d2b2b" font-family="ui-monospace, Menlo, monospace" font-size="12">chance 50</text>
+  <g fill="#1c1914">
+    <rect x="850" y="318" width="18" height="102"/>
+    <rect x="878" y="308" width="18" height="112"/>
+    <rect x="906" y="322" width="18" height="98"/>
+    <rect x="934" y="302" width="18" height="118"/>
+    <rect x="962" y="326" width="18" height="94"/>
+    <rect x="990" y="310" width="18" height="110"/>
+    <rect x="1018" y="316" width="18" height="104"/>
+    <rect x="1046" y="328" width="18" height="92"/>
+    <rect x="1074" y="306" width="18" height="114"/>
+    <rect x="1102" y="320" width="18" height="100"/>
+  </g>
+  <text x="820" y="448" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12">13 models, both modes</text>
+  <text x="820" y="490" fill="#1c1914" font-family="Georgia, serif" font-size="28">41–56</text>
+
+  <text x="48" y="540" fill="#6d655c" font-family="Georgia, serif" font-size="16">Accuracy on balanced ASK / ANSWER splits. Composite bars are harness accuracy on the decontaminated slice.</text>
+</svg>
