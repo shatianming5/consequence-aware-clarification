@@ -221,6 +221,19 @@
   }
   .map th { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
   .map td, .map th { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+  figure { margin: 0 0 28px; }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--line);
+    background: #f7f3eb;
+  }
+  figcaption {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 15px;
+  }
   code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.86em; }
   footer {
     border-top: 1px solid var(--line);
@@ -248,6 +261,7 @@
     <a href="#top">Execution grounding</a>
     <div class="nav-links">
       <a href="#demo">Demo</a>
+      <a href="#figures">Figures</a>
       <a href="#results">Results</a>
       <a href="#method">Method</a>
       <a href="#code">Code</a>
@@ -311,6 +325,19 @@
       </div>
     </div>
   </div>
+
+  <section id="figures">
+    <p class="kicker">Figures</p>
+    <h3>What the checks miss, and what the harness reads.</h3>
+    <figure>
+      <img src="figures/silent-error.svg" alt="An ambiguous request is turned into one operator. The code executes and the number looks plausible, but it is the wrong quantity. Artifact checks mark execute, schema, and value as ok.">
+      <figcaption>Silent semantic error. Artifact checks accept both the intended and the unintended computation, because both run and both look well formed.</figcaption>
+    </figure>
+    <figure>
+      <img src="figures/harness.svg" alt="One generation produces a stated tag and two code probes. The sandbox compares the probe outputs on the current table. Two different outputs mean ASK. The stated tag does not decide.">
+      <figcaption>Execution-grounded harness. The stated tag and the probes are two observables. The verdict is whether the successful outputs diverge on this table. The reward also requires those outputs to recover the reference readings.</figcaption>
+    </figure>
+  </section>
 
   <section id="results">
     <p class="kicker">Held-out real tables</p>

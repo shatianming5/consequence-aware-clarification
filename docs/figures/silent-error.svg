@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Silent semantic error</title>
+  <desc id="desc">An ambiguous request is resolved into one plausible operator. The code executes and returns a valid number, but it is the wrong quantity. Artifact checks accept it.</desc>
+  <rect width="1200" height="560" fill="#f7f3eb"/>
+  <text x="48" y="48" fill="#14663a" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="2">FIGURE 01</text>
+  <text x="48" y="84" fill="#1c1914" font-family="Georgia, 'Times New Roman', serif" font-size="32">The artifact looks fine. The quantity is wrong.</text>
+
+  <rect x="48" y="120" width="300" height="300" rx="2" fill="#fffdf8" stroke="#d3c9b8"/>
+  <text x="72" y="156" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.5">AMBIGUOUS REQUEST</text>
+  <text x="72" y="206" fill="#1c1914" font-family="Georgia, serif" font-size="26">average of the</text>
+  <text x="72" y="240" fill="#1c1914" font-family="Georgia, serif" font-size="26">positive values</text>
+  <text x="72" y="292" fill="#6d655c" font-family="Georgia, serif" font-size="16">reading A · x &gt; 0</text>
+  <text x="72" y="318" fill="#6d655c" font-family="Georgia, serif" font-size="16">reading B · x ≥ 0</text>
+  <text x="72" y="380" fill="#9d2b2b" font-family="ui-monospace, Menlo, monospace" font-size="13">the model picks one</text>
+
+  <path d="M360 270 H400" stroke="#1c1914" stroke-width="1.4" fill="none"/>
+  <path d="M392 264 L404 270 L392 276" fill="#1c1914"/>
+
+  <rect x="412" y="120" width="320" height="300" rx="2" fill="#fffdf8" stroke="#d3c9b8"/>
+  <text x="436" y="156" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.5">ONE OPERATOR</text>
+  <text x="436" y="200" fill="#1c1914" font-family="ui-monospace, Menlo, monospace" font-size="15">result = df.loc[</text>
+  <text x="436" y="224" fill="#1c1914" font-family="ui-monospace, Menlo, monospace" font-size="15">  df.x &gt; 0, "x"].mean()</text>
+  <rect x="436" y="268" width="120" height="36" fill="#f3d9d4"/>
+  <text x="452" y="292" fill="#9d2b2b" font-family="Georgia, serif" font-size="18">unintended</text>
+  <text x="436" y="360" fill="#6d655c" font-family="Georgia, serif" font-size="16">runs, returns 18.4</text>
+  <text x="436" y="386" fill="#6d655c" font-family="Georgia, serif" font-size="16">schema is valid</text>
+
+  <path d="M744 270 H784" stroke="#1c1914" stroke-width="1.4" fill="none"/>
+  <path d="M776 264 L788 270 L776 276" fill="#1c1914"/>
+
+  <rect x="796" y="120" width="356" height="300" rx="2" fill="#fffdf8" stroke="#d3c9b8"/>
+  <text x="820" y="156" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.5">ARTIFACT CHECKS</text>
+  <g font-family="Georgia, serif" font-size="18" fill="#1c1914">
+    <text x="820" y="210">executes</text>
+    <text x="820" y="252">shape-valid table</text>
+    <text x="820" y="294">plausible value</text>
+  </g>
+  <g font-family="ui-monospace, Menlo, monospace" font-size="16" fill="#14663a">
+    <text x="1068" y="210">ok</text>
+    <text x="1068" y="252">ok</text>
+    <text x="1068" y="294">ok</text>
+  </g>
+  <text x="820" y="368" fill="#9d2b2b" font-family="Georgia, serif" font-size="20">silent semantic error</text>
+
+  <rect x="48" y="448" width="1104" height="72" fill="#1c1914"/>
+  <text x="72" y="490" fill="#f3eee4" font-family="Georgia, serif" font-size="20">Both the intended and the unintended computation pass every artifact check.</text>
+</svg>

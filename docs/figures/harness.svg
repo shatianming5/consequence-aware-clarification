@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title2 desc2">
+  <title id="title2">Execution-grounded harness</title>
+  <desc id="desc2">One generation yields a stated tag and two code probes. The sandbox compares their outputs. The reward pays only when those outputs recover the reference readings.</desc>
+  <rect width="1200" height="620" fill="#f7f3eb"/>
+  <text x="48" y="48" fill="#14663a" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="2">FIGURE 02</text>
+  <text x="48" y="84" fill="#1c1914" font-family="Georgia, 'Times New Roman', serif" font-size="32">The verdict is read off the execution, not the tag.</text>
+
+  <rect x="48" y="124" width="250" height="150" fill="#fffdf8" stroke="#d3c9b8"/>
+  <text x="68" y="160" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.4">ONE GENERATION</text>
+  <text x="68" y="204" fill="#1c1914" font-family="Georgia, serif" font-size="22">stated tag</text>
+  <text x="68" y="234" fill="#1c1914" font-family="Georgia, serif" font-size="22">+ two probes</text>
+
+  <path d="M298 170 H340" stroke="#1c1914" stroke-width="1.4"/>
+  <path d="M332 164 L344 170 L332 176" fill="#1c1914"/>
+  <path d="M298 228 H340" stroke="#1c1914" stroke-width="1.4"/>
+  <path d="M332 222 L344 228 L332 234" fill="#1c1914"/>
+
+  <rect x="352" y="124" width="280" height="92" fill="#f3d9d4" stroke="#e3b2aa"/>
+  <text x="372" y="158" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12">SIMULATION</text>
+  <text x="372" y="190" fill="#9d2b2b" font-family="Georgia, serif" font-size="22">&lt;ASK&gt; from the weights</text>
+
+  <rect x="352" y="236" width="280" height="160" fill="#fffdf8" stroke="#d3c9b8"/>
+  <text x="372" y="268" fill="#6d655c" font-family="ui-monospace, Menlo, monospace" font-size="12">PROBES</text>
+  <text x="372" y="304" fill="#1c1914" font-family="ui-monospace, Menlo, monospace" font-size="14">result = df.x.sum()</text>
+  <text x="372" y="332" fill="#1c1914" font-family="ui-monospace, Menlo, monospace" font-size="14">result = df.drop_duplicates()</text>
+  <text x="392" y="354" fill="#1c1914" font-family="ui-monospace, Menlo, monospace" font-size="14">.x.sum()</text>
+
+  <path d="M632 316 H676" stroke="#1c1914" stroke-width="1.4"/>
+  <path d="M668 310 L680 316 L668 322" fill="#1c1914"/>
+
+  <rect x="688" y="180" width="464" height="280" fill="#dceee3" stroke="#b7d7c4"/>
+  <text x="712" y="216" fill="#14663a" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.4">SANDBOX · THIS TABLE</text>
+  <text x="712" y="264" fill="#1c1914" font-family="Georgia, serif" font-size="22">outputs 40 and 30</text>
+  <text x="712" y="308" fill="#1c1914" font-family="Georgia, serif" font-size="28">|O| = 2  →  ASK</text>
+  <text x="712" y="352" fill="#1c1914" font-family="Georgia, serif" font-size="18">same outputs → ANSWER</text>
+  <text x="712" y="392" fill="#6d655c" font-family="Georgia, serif" font-size="16">fewer than two that run → MALFORMED</text>
+  <text x="712" y="430" fill="#14663a" font-family="Georgia, serif" font-size="16">the tag is kept, but it does not decide</text>
+
+  <rect x="48" y="500" width="1104" height="80" fill="#1c1914"/>
+  <text x="72" y="532" fill="#f3eee4" font-family="Georgia, serif" font-size="18">Reward pays a matching verdict, and pays for recovering the reference readings.</text>
+  <text x="72" y="558" fill="#c9e6d4" font-family="Georgia, serif" font-size="18">A pair that diverges for the wrong reason scores strictly worse.</text>
+</svg>
