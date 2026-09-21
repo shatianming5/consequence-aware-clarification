@@ -188,9 +188,24 @@
   .stamp.answer { background: var(--green-soft); border-style: solid; border-color: #b7d7c4; }
   .stamp span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; color: var(--muted); }
   .note { color: var(--muted); font-size: 15px; margin: 12px 0 0; }
-  .probes { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
-  .probes .out { color: var(--green); }
-  .probes .bad { color: var(--red); }
+  .sandbox { display: flex; flex-direction: column; }
+  .probes { display: flex; flex-direction: column; gap: 20px; flex: 1; margin-top: 16px; }
+  .probe { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .probe + .probe { margin-top: 12px; }
+  .probe-label { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; background: var(--paper); color: var(--muted); font: 11px/1.5 "IBM Plex Mono", ui-monospace, monospace; }
+  .probe code { display: block; padding: 12px; min-height: 5.2em; background: #fffdf8; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+  .probe-results { table-layout: fixed; }
+  .probe-results th, .probe-results td { padding: 12px 0; vertical-align: middle; }
+  .probe-results thead th { color: var(--muted); font-size: 11px; font-weight: 400; }
+  .probe-results th:first-child { width: 23%; }
+  .probe-results th:last-child, .probe-results td:last-child { text-align: right; }
+  .probe-results tbody th { font-weight: 500; }
+  .decision { display: inline-block; width: 7em; padding: 5px 0; border-radius: 4px; text-align: center; font-size: 11px; font-weight: 500; }
+  .decision.answer { background: var(--green-soft); color: var(--green); }
+  .decision.ask { background: var(--red-soft); color: var(--red); }
+  .probe-rule { margin-top: auto; padding-top: 4px; }
+  .probe-rule p { margin: 0; font-size: 16px; }
+  .probe-rule .note { margin-top: 8px; font-size: 13px; }
   section { margin: 0 0 80px; padding-top: 30px; border-top: 1px solid var(--line); }
   section .kicker { margin-top: 0; }
   section > h3 { max-width: 26ch; margin-bottom: 32px; }
@@ -255,7 +270,7 @@
   a:focus-visible, button:focus-visible { outline: 3px solid var(--green); outline-offset: 4px; }
   .plate img { width: 100%; height: auto; display: block; }
   .plate.sq { width: min(520px, 100%); }
-  .plate.wide { width: min(860px, 100%); }
+  .plate.wide { width: min(1040px, 100%); }
   .plate.chart { width: min(980px, 100%); margin-top: 36px; }
   .cap {
     margin: 10px 2px 0;
@@ -378,15 +393,30 @@
       </div>
       <p class="note" id="mode-note">Simulation reads the wording and asks on both tables. It never computed whether the two sums differ.</p>
     </div>
-    <div class="panel">
+    <div class="panel sandbox">
       <h2>What the sandbox reads</h2>
       <div class="probes" id="probe-card">
-        <p>Probe 1 &nbsp;<code>result = df["weight"].sum()</code></p>
-        <p>Probe 2 &nbsp;<code>result = df.drop_duplicates()["weight"].sum()</code></p>
-        <p>Table A &nbsp;<span class="out">30</span> and <span class="out">30</span> · coincide<br>
-        Table B &nbsp;<span class="out">40</span> and <span class="bad">30</span> · diverge</p>
-        <p>Eq. 1 &nbsp; ASK if those outputs differ, else ANSWER.<br>
-        Fewer than two probes that run is <span class="bad">MALFORMED</span>.</p>
+        <div>
+          <div class="probe">
+            <div class="probe-label"><span>PROBE 01</span><span>All rows</span></div>
+            <code>result = df["weight"].sum()</code>
+          </div>
+          <div class="probe">
+            <div class="probe-label"><span>PROBE 02</span><span>Deduplicated rows</span></div>
+            <code>result = df.drop_duplicates()<wbr>["weight"].sum()</code>
+          </div>
+        </div>
+        <table class="probe-results" aria-label="Probe outputs and harness decisions">
+          <thead><tr><th scope="col">Table</th><th scope="col">Outputs</th><th scope="col">Decision</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">A</th><td>30 = 30</td><td><span class="decision answer">ANSWER</span></td></tr>
+            <tr><th scope="row">B</th><td>40 ≠ 30</td><td><span class="decision ask">ASK</span></td></tr>
+          </tbody>
+        </table>
+        <div class="probe-rule">
+          <p><strong>Different outputs? Ask.</strong><br>Matching outputs? Answer.</p>
+          <p class="note">Eq. 1 · Fewer than two successful probes → <code>MALFORMED</code>.</p>
+        </div>
       </div>
     </div>
   </div>
