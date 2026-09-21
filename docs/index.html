@@ -104,9 +104,9 @@
   .btn:hover { transform: translateY(-1px); }
   .stage {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 22px;
-    align-items: stretch;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 20px;
+    align-items: start;
     margin-bottom: 72px;
   }
   .panel {
@@ -224,52 +224,31 @@
   }
   .map th { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
   .map td, .map th { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; }
-  .split-fig {
-    display: grid;
-    grid-template-columns: minmax(280px, 560px) minmax(0, 1fr);
-    gap: 36px;
-    align-items: center;
-    margin: 28px 0 64px;
-  }
-  .aside p { margin: 0 0 14px; font-size: 18px; }
-  .aside p:last-child { margin: 0; color: var(--muted); }
-  .mat {
+  .gallery { margin-top: 8px; }
+  .plate { margin: 0 auto 48px; }
+  .plate .mat {
     background: #fff;
     border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-    padding: 14px;
-  }
-  .mat img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  .wide-fig {
-    max-width: 720px;
-    margin: 8px auto 40px;
-  }
-  .wide-fig .mat {
-    overflow: visible;
     padding: 8px;
-    box-shadow: none;
   }
-  .chart-fig { margin: 22px 0 32px; }
-  .chart-fig .mat { padding: 6px; background: #fffdf8; }
+  .plate img { width: 100%; height: auto; display: block; }
+  .plate.sq { width: min(520px, 100%); }
+  .plate.wide { width: min(860px, 100%); }
+  .plate.chart { width: min(980px, 100%); margin-top: 36px; }
   .cap {
-    display: grid;
-    grid-template-columns: 4.2rem 1fr;
-    gap: 14px;
-    margin: 12px 0 0;
-    font-size: 16px;
+    margin: 10px 2px 0;
+    font-size: 15.5px;
     line-height: 1.45;
+    color: var(--muted);
   }
   .cap b {
+    display: block;
+    margin-bottom: 3px;
     font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.06em;
+    font-size: 11px;
+    letter-spacing: 0.08em;
     color: var(--green);
-    padding-top: 4px;
   }
   code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.86em; }
   footer {
@@ -283,8 +262,7 @@
     flex-wrap: wrap;
   }
   @media (max-width: 860px) {
-    .stage, .stats, .steps, .tables, .verdicts, .split-fig { grid-template-columns: 1fr; }
-    .cap { grid-template-columns: 1fr; gap: 4px; }
+    .stage, .stats, .steps, .tables, .verdicts { grid-template-columns: 1fr; }
     h1 { font-size: 46px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -367,35 +345,25 @@
   <section id="figures">
     <p class="kicker">Figures</p>
     <h3>What the checks miss, and what the harness reads.</h3>
-    <div class="split-fig">
-      <figure class="plate">
+    <div class="gallery">
+      <figure class="plate sq">
         <div class="mat">
           <img src="figures/fig_intro_silent_problem.png" alt="Ambiguous request, each city's share of sales, splits into a plausible global share and the intended within-group share. Both pass artifact checks. The wrong quantity is a silent semantic error.">
         </div>
-        <figcaption class="cap"><b>Fig. 1</b><span>Silent semantic errors arise when an ambiguous request is resolved into a plausible but unintended operator. Artifact checks accept both computations.</span></figcaption>
+        <figcaption class="cap"><b>Fig. 1</b> Silent semantic errors arise when an ambiguous request is resolved into a plausible but unintended operator. Artifact checks accept both computations.</figcaption>
       </figure>
-      <div class="aside">
-        <p>Both readings of “each city’s share of sales” execute and return a well-formed chart.</p>
-        <p>The intended reading and the unintended one pass the same checks. The wrong quantity is never flagged.</p>
-      </div>
+      <figure class="plate wide">
+        <div class="mat">
+          <img src="figures/fig_method_framework.png" alt="Four panels: the request and table, the policy writing two probes plus a stated tag, the deterministic harness reading the verdict from the outcome set, and the verifiable reward terms.">
+        </div>
+        <figcaption class="cap"><b>Fig. 2</b> One generation yields a stated token and executable probes. The harness reads the verdict off the outcome set. A manufactured divergence scores +2.0 against +4.0 for an honest probe.</figcaption>
+      </figure>
     </div>
-    <figure class="plate wide-fig">
-      <div class="mat">
-        <img src="figures/fig_method_framework.png" alt="Four panels: the request and table, the policy writing two probes plus a stated tag, the deterministic harness reading the verdict from the outcome set, and the verifiable reward terms.">
-      </div>
-      <figcaption class="cap"><b>Fig. 2</b><span>One generation yields a stated token and executable probes. The harness reads the verdict off the outcome set. A manufactured divergence scores +2.0 against +4.0 for an honest probe.</span></figcaption>
-    </figure>
   </section>
 
   <section id="results">
     <p class="kicker">Held-out real tables</p>
     <h3>The gap is not “write better pandas”.</h3>
-    <figure class="plate chart-fig">
-      <div class="mat">
-        <img src="figures/results.png" alt="Bar chart. Single-axis: simulation 61.7, harness 69.3. Composite harness accuracy rises from 43.5 to 69.9 to 88.2. Thirteen frontier models sit between 41 and 56, around chance.">
-      </div>
-      <figcaption class="cap"><b>Fig. 3</b><span>Single-axis compares the two decision modes of one 7B model. Composite bars are harness accuracy on the decontaminated slice. Frontier models stay near chance.</span></figcaption>
-    </figure>
     <div class="stats">
       <article class="stat">
         <div class="num up">+7.6</div>
@@ -410,6 +378,12 @@
         <p>Frontier models, zero-shot, same composite items. A low crash rate never becomes a significant harness win.</p>
       </article>
     </div>
+    <figure class="plate chart">
+      <div class="mat">
+        <img src="figures/results.png" alt="Bar chart. Single-axis: simulation 61.7, harness 69.3. Composite harness accuracy rises from 43.5 to 69.9 to 88.2. Thirteen frontier models sit between 41 and 56, around chance.">
+      </div>
+      <figcaption class="cap"><b>Fig. 3</b> Single-axis compares the two decision modes of one 7B model. Composite bars are harness accuracy on the decontaminated slice. Frontier models stay near chance.</figcaption>
+    </figure>
   </section>
 
   <section id="method">
