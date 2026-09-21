@@ -37,23 +37,15 @@
     font-size: 18px;
     line-height: 1.55;
   }
-  body::before {
-    content: "";
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    opacity: 0.18;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-    mix-blend-mode: multiply;
-  }
   a { color: inherit; }
-  .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+  .wrap { width: min(1160px, calc(100% - 64px)); margin: 0 auto; }
   nav {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 16px;
-    padding: 22px 0 8px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
     font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: 12px;
     letter-spacing: 0.08em;
@@ -63,6 +55,15 @@
   nav a { text-decoration: none; }
   nav a:hover { color: var(--ink); }
   .nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 56px;
+    padding: 68px 0 76px;
+  }
+  .hero .kicker { margin-top: 0; }
+  .hero .plate { margin: 0; }
   .kicker {
     font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: 12px;
@@ -74,20 +75,21 @@
   h1 {
     font-family: Fraunces, Georgia, serif;
     font-weight: 560;
-    font-size: clamp(46px, 7vw, 84px);
-    line-height: 0.92;
+    font-size: clamp(46px, 5.5vw, 72px);
+    line-height: 1.04;
     letter-spacing: -0.03em;
     margin: 0 0 18px;
     max-width: 14ch;
   }
-  h1 em { font-style: italic; font-weight: 460; }
+  h1 em { font-style: italic; font-weight: 460; color: var(--green); }
   .lede {
     max-width: 42rem;
-    font-size: 22px;
+    font-size: 20px;
+    color: var(--muted);
     margin: 0 0 28px;
   }
   .lede strong { font-weight: 560; }
-  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 54px; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 0; }
   .btn {
     display: inline-flex;
     align-items: center;
@@ -99,21 +101,23 @@
     font-size: 13px;
     background: var(--ink);
     color: var(--paper);
+    border-radius: 6px;
   }
   .btn.ghost { background: transparent; color: var(--ink); }
   .btn:hover { transform: translateY(-1px); }
   .stage {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
     gap: 20px;
-    align-items: start;
+    align-items: stretch;
     margin-bottom: 72px;
   }
   .panel {
     background: rgba(255,252,246,0.78);
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
-    padding: 22px;
+    padding: 28px;
+    border-radius: 12px;
   }
   .panel h2 {
     font-family: Fraunces, Georgia, serif;
@@ -129,7 +133,9 @@
     padding: 10px 12px;
     margin: 14px 0 16px;
   }
-  .tables { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tables { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+  .tables caption { min-height: 3.1em; }
+  .tables table { table-layout: fixed; }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -146,7 +152,7 @@
     color: var(--muted);
     margin-bottom: 6px;
   }
-  .modes { display: flex; gap: 8px; margin: 8px 0 14px; }
+  .modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 20px 0 14px; }
   .modes button {
     font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: 12px;
@@ -154,6 +160,7 @@
     background: transparent;
     padding: 7px 10px;
     cursor: pointer;
+    border-radius: 5px;
   }
   .modes button[aria-pressed="true"] {
     background: var(--ink);
@@ -169,6 +176,7 @@
     align-items: flex-start;
     padding: 12px;
     border: 1px dashed var(--line);
+    border-radius: 6px;
   }
   .stamp b {
     font-family: Fraunces, Georgia, serif;
@@ -180,10 +188,12 @@
   .stamp.answer { background: var(--green-soft); border-style: solid; border-color: #b7d7c4; }
   .stamp span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; color: var(--muted); }
   .note { color: var(--muted); font-size: 15px; margin: 12px 0 0; }
-  .probes { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; line-height: 1.45; }
+  .probes { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
   .probes .out { color: var(--green); }
   .probes .bad { color: var(--red); }
-  section { margin: 18px 0 70px; }
+  section { margin: 0 0 80px; padding-top: 30px; border-top: 1px solid var(--line); }
+  section .kicker { margin-top: 0; }
+  section > h3 { max-width: 26ch; margin-bottom: 32px; }
   h3 {
     font-family: Fraunces, Georgia, serif;
     font-size: 36px;
@@ -194,22 +204,26 @@
   .stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    gap: 28px;
   }
   .stat {
     border-top: 2px solid var(--ink);
     padding-top: 12px;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    row-gap: 8px;
   }
   .stat .num {
     font-family: Fraunces, Georgia, serif;
-    font-size: clamp(36px, 5vw, 54px);
+    font-size: clamp(32px, 4vw, 48px);
     line-height: 1;
     letter-spacing: -0.03em;
   }
   .stat .num.up { color: var(--green); }
-  .stat p { margin: 8px 0 0; color: var(--muted); font-size: 16px; }
+  .stat p { margin: 0; color: var(--muted); font-size: 16px; }
   .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
-  .step { border-top: 1px solid var(--line); padding-top: 12px; }
+  .step { border-top: 1px solid var(--line); padding-top: 12px; display: grid; grid-template-rows: subgrid; grid-row: span 3; row-gap: 6px; }
   .step .n {
     font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: 12px;
@@ -221,16 +235,24 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 16px;
+    overflow-wrap: anywhere;
+    table-layout: fixed;
   }
+  .map th:first-child { width: 32%; }
   .map th { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
   .map td, .map th { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; }
   .gallery { margin-top: 8px; }
-  .plate { margin: 0 auto 48px; }
+  .plate { margin: 0 auto; }
   .plate .mat {
     background: #fff;
     border: 1px solid var(--line);
     padding: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(40, 28, 12, 0.04);
   }
+  .mat a { display: block; cursor: zoom-in; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--green); outline-offset: 4px; }
   .plate img { width: 100%; height: auto; display: block; }
   .plate.sq { width: min(520px, 100%); }
   .plate.wide { width: min(860px, 100%); }
@@ -242,14 +264,15 @@
     color: var(--muted);
   }
   .cap b {
-    display: block;
-    margin-bottom: 3px;
+    display: inline;
+    margin-right: 8px;
     font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-weight: 500;
     font-size: 11px;
     letter-spacing: 0.08em;
     color: var(--green);
   }
+  .figure-hint { font-size: 13px; color: var(--muted); margin: -20px 0 28px; }
   code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.86em; }
   footer {
     border-top: 1px solid var(--line);
@@ -260,10 +283,27 @@
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
+    overflow-wrap: anywhere;
   }
   @media (max-width: 860px) {
-    .stage, .stats, .steps, .tables, .verdicts { grid-template-columns: 1fr; }
-    h1 { font-size: 46px; }
+    .hero, .stage { grid-template-columns: minmax(0, 1fr); }
+    .hero { gap: 36px; padding: 44px 0 56px; }
+    .hero .plate { margin: 0 auto; }
+    h1 { font-size: clamp(46px, 8vw, 68px); }
+    nav { align-items: flex-start; flex-direction: column; }
+  }
+  @media (max-width: 560px) {
+    .wrap { width: calc(100% - 36px); }
+    .nav-links { gap: 10px 16px; font-size: 11px; }
+    .stats, .steps { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .panel { padding: 20px; }
+    .panel h2 { font-size: 25px; }
+    .tables { gap: 8px; }
+    h3 { font-size: 30px; line-height: 1.2; }
+    section { margin-bottom: 56px; }
+    .cap { font-size: 14px; }
+    .map { font-size: 14px; }
+    .map th:first-child { width: 40%; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -285,7 +325,8 @@
     </div>
   </nav>
 
-  <header id="top">
+  <header id="top" class="hero">
+    <div>
     <p class="kicker">Data agents · clarification · verifiable reward</p>
     <h1>Break the illusion of <em>mental sandboxes</em>.</h1>
     <p class="lede">A data agent can run, return a tidy table, and still compute the wrong quantity. The request was ambiguous, and the model never checked whether the competing readings differ <strong>on this table</strong>.</p>
@@ -293,6 +334,15 @@
       <a class="btn" href="https://github.com/shatianming5/consequence-aware-clarification">View the code</a>
       <a class="btn ghost" href="#demo">See the same request flip</a>
     </div>
+    </div>
+    <figure class="plate sq">
+      <div class="mat">
+        <a href="figures/fig_intro_silent_problem.png" aria-label="View Figure 1 at full resolution">
+          <img src="figures/fig_intro_silent_problem.png" width="1254" height="1254" alt="Ambiguous request, each city's share of sales, splits into a plausible global share and the intended within-group share. Both pass artifact checks. The wrong quantity is a silent semantic error.">
+        </a>
+      </div>
+      <figcaption class="cap"><b>Fig. 1</b> A plausible output can still answer the wrong question. Artifact checks accept both computations.</figcaption>
+    </figure>
   </header>
 
   <div class="stage" id="demo">
@@ -344,17 +394,14 @@
 
   <section id="figures">
     <p class="kicker">Figures</p>
-    <h3>What the checks miss, and what the harness reads.</h3>
+    <h3>From competing readings to a verifiable decision.</h3>
+    <p class="figure-hint">Select any figure to view it at full resolution.</p>
     <div class="gallery">
-      <figure class="plate sq">
-        <div class="mat">
-          <img src="figures/fig_intro_silent_problem.png" alt="Ambiguous request, each city's share of sales, splits into a plausible global share and the intended within-group share. Both pass artifact checks. The wrong quantity is a silent semantic error.">
-        </div>
-        <figcaption class="cap"><b>Fig. 1</b> Silent semantic errors arise when an ambiguous request is resolved into a plausible but unintended operator. Artifact checks accept both computations.</figcaption>
-      </figure>
       <figure class="plate wide">
         <div class="mat">
-          <img src="figures/fig_method_framework.png" alt="Four panels: the request and table, the policy writing two probes plus a stated tag, the deterministic harness reading the verdict from the outcome set, and the verifiable reward terms.">
+          <a href="figures/fig_method_framework.png" aria-label="View Figure 2 at full resolution">
+            <img src="figures/fig_method_framework.png" width="1983" height="571" loading="lazy" alt="Four panels: the request and table, the policy writing two probes plus a stated tag, the deterministic harness reading the verdict from the outcome set, and the verifiable reward terms.">
+          </a>
         </div>
         <figcaption class="cap"><b>Fig. 2</b> One generation yields a stated token and executable probes. The harness reads the verdict off the outcome set. A manufactured divergence scores +2.0 against +4.0 for an honest probe.</figcaption>
       </figure>
@@ -380,7 +427,9 @@
     </div>
     <figure class="plate chart">
       <div class="mat">
-        <img src="figures/results.png" alt="Bar chart. Single-axis: simulation 61.7, harness 69.3. Composite harness accuracy rises from 43.5 to 69.9 to 88.2. Thirteen frontier models sit between 41 and 56, around chance.">
+        <a href="figures/results.png" aria-label="View Figure 3 at full resolution">
+          <img src="figures/results.png" width="2200" height="1027" loading="lazy" alt="Bar chart. Single-axis: simulation 61.7, harness 69.3. Composite harness accuracy rises from 43.5 to 69.9 to 88.2. Thirteen frontier models sit between 41 and 56, around chance.">
+        </a>
       </div>
       <figcaption class="cap"><b>Fig. 3</b> Single-axis compares the two decision modes of one 7B model. Composite bars are harness accuracy on the decontaminated slice. Frontier models stay near chance.</figcaption>
     </figure>
